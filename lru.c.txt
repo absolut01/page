@@ -1,0 +1,73 @@
+#include <stdlib.h>
+#include <stdio.h>
+#define MAX 100
+#define MIN 10
+int ref[MAX],count,frame[MIN],n;
+void input()
+{
+int i,temp;
+count=0;
+printf("\n\nEnter the no.of page frames: ");
+scanf("%d",&n);
+printf("\n\nEnter the reference string(-1 for end): ");
+scanf("%d",&temp);
+while(temp!=-1)
+{
+ref[count++]=temp;
+scanf("%d",&temp);
+}
+}
+void LRU()
+{
+int i,j,k,stack[MIN],top=0,fault=0;
+for(i=0;i<count;i++)
+{
+if(top<n)
+stack[top++]=ref[i],fault++;
+else
+{
+for(j=0;j<n;j++)
+if(stack[j]==ref[i])
+break;
+if(j<n)
+{
+for(k=j;k<n-1;k++)
+stack[k]=stack[k+1];
+stack[k]=ref[i];
+}
+else
+{
+for(k=j;k<n-1;k++)
+stack[k]=stack[k+1];
+stack[k]=ref[i];
+fault++;
+}
+}
+printf("\n\nAfter inserting %d the stack status is : ",ref[i]);
+for(j=0;j<top;j++)
+printf("\n%d",stack[j]);
+}
+printf("\n\n\tEnd to inserting the refernce string. ");
+printf("\n\n\tTotal page fault is %d",fault);
+printf("\n\n\tPress any key to continue.");
+}
+void main()
+{
+int x;
+//freopen("in.cpp","r",stdin);
+while(1)
+{
+printf("\n\n\t------MENU-------");
+printf("\n\n\t1.input\n\t2.LRU\n\t3.Exit\n\t Enter ur choice ");
+scanf("%d",&x);
+switch(x)
+{
+case 1:input();
+break;
+case 2:LRU();
+break;
+case 3:exit(0);
+}
+}
+}
+
